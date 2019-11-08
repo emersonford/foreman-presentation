@@ -6,7 +6,7 @@
 % new an instance thread
 % Example:
 % \newinst[color]{var}{name}{class}
-\newcommand{\newspacedthread}[3][none]{
+\newcommand{\newspacedthread}[3][gray!30]{
   \newinst[2]{#2}{#3}
   \stepcounter{threadnum}
   \node[below of=inst\theinstnum,node distance=0.8cm] (thread\thethreadnum) {};
@@ -17,20 +17,46 @@
 \begin{document}
 
 \begin{sequencediagram}
-	\tikzstyle{threadstyle}+=[draw=none,fill=none]
-	\newthread[none]{A}{Remote User}{}
-	\newspacedthread{B}{Remote Host}{}
-	\newinst[1]{C}{Foreman Master}{}
-	\newinst[1]{D}{Smart Proxy}{}
-	\newinst[1]{E}{Remote DHCP}{}
+	% \tikzstyle{threadstyle}+=[draw=none,fill=none]
+	% \newthread{A}{Remote User}{}
+	\newthread{B}{Remote Host}{}
+	\newinst[3]{C}{Foreman Admin}{}
+	\newinst[1]{D}{Foreman Master}{}
+	\newinst[2]{E}{Smart Proxy}{}
+	\newinst[1]{F}{Remote DHCP}{}
+
+	\draw[line width=.1mm,double distance=3pt] ([xshift=70pt] 0,-1.5 -| current page.west) -- node[fill=white] {Boot into Custom iPXE USB Image} ([xshift=60pt] 0,-1.5 -| current page.east);
+
 
 	\postlevel
-	\begin{messcall}{A}{\shortstack{Insert Boot USB and \\
-				boot host into USB}}{B}{}
-	\end{messcall}
+	\postlevel
+	\begin{call}{B}{for i in 0..32 \{ request DHCP lease on net\$i \&\& break; \}}{F}{}
+	\end{call}
+	\postlevel
+	\begin{call}{B}{Fetch bootstrap script via http w/ MAC address param}{E}{}
+		\begin{call}{E}{Look up MAC address}{E}{}
+		\end{call}
+	\end{call}
 
 
-	\draw[line width=.1mm,double distance=3pt] ([xshift=70pt] 0,-3.5 -| current page.west) -- node[fill=white] {Boot into iPXE USB Image} ([xshift=-40pt] 0,-3.5 -| current page.east);
+	\begin{call}{B}{Call `facter`}{B}{}
+		\begin{call}{B}{Call `dsu -i`}{B}{}
+		\end{call}
+		\begin{call}{B}{Call `omreport biossetup`}{B}{}
+		\end{call}
+		\begin{call}{B}{Call `omreport storage`}{B}{}
+		\end{call}
+	\end{call}
+
+	\begin{call}{B}{\shortstack{Register as Discovered Host and publish facts}}{E}{}
+		\begin{call}{E}{Display host on web/cli}{D}{}
+
+		\end{call}
+
+	\end{call}
+
+
+
 
 \end{sequencediagram}
 
