@@ -1,0 +1,46 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{pgf-umlsd}
+
+
+%Information to be included in the title page:
+\title{Foreman Provisioning}
+\author{Emerson Ford}
+\date{}
+
+
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+	\frametitle{What is Foreman?}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Use Cases for Foreman}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Foreman iPXE Workflow}
+
+	\begin{figure}
+		\centering
+		\begin{sequencediagram}
+			\newthread{A}{Remote User}{}
+			\newinst[1]{B}{Remote Host}{}
+			\newinst[1]{C}{Foreman Master}{}
+			\newinst[1]{D}{Smart Proxy}{}
+			\newinst[1]{E}{Remote DHCP}{}
+
+			\begin{call}{A}{Call()}{B}{}
+			\end{call}
+		\end{sequencediagram}
+	\end{figure}
+
+\end{frame}
+
+\end{document}
