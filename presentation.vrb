@@ -1,32 +1,4 @@
-\documentclass{beamer}
-
-\usepackage[utf8]{inputenc}
-\usepackage{pdfpages}
-\usepackage{listings}
-
-
-%Information to be included in the title page:
-\title{Foreman Provisioning}
-\author{Emerson Ford}
-\date{}
-
-
-
-\begin{document}
-\frame{\titlepage}
-
-\begin{frame}
-	\frametitle{What is Foreman?}
-
-\end{frame}
-
-\begin{frame}
-	\frametitle{Use Cases for Foreman}
-
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Foreman iPXE Workflow}
+\frametitle{Foreman iPXE Workflow}
 
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
@@ -57,6 +29,3 @@ if exists user-class and option user-class = "iPXE" {
 		\end{column}
 	\end{columns}
 
-\end{frame}
-
-\end{document}
