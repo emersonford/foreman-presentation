@@ -1,0 +1,87 @@
+\documentclass{standalone}
+
+\usepackage[utf8]{inputenc}
+\usepackage{pgf-umlsd}
+
+% new an instance thread
+% Example:
+% \newinst[color]{var}{name}{class}
+\newcommand{\newspacedthread}[3][gray!30]{
+  \newinst[2]{#2}{#3}
+  \stepcounter{threadnum}
+  \node[below of=inst\theinstnum,node distance=0.8cm] (thread\thethreadnum) {};
+  \tikzstyle{threadcolor\thethreadnum}=[fill=#1]
+  \tikzstyle{instcolor#2}=[fill=#1]
+}
+
+\begin{document}
+
+\begin{sequencediagram}
+	% \tikzstyle{threadstyle}+=[draw=none,fill=none]
+	% \newthread{A}{Remote User}{}
+	\newthread{B}{Remote Host}{}
+	\newinst[4]{D}{Foreman Master}{}
+	\newinst[2]{E}{Smart Proxy}{}
+	\newinst[2]{F}{Remote DHCP}{}
+
+	\draw[line width=.1mm,double distance=3pt] ([xshift=70pt] 0,-1.5 -| current page.west) -- node[fill=white] {Boot into Custom iPXE USB Image} ([xshift=-20pt] 0,-1.5 -| current page.east);
+
+
+	\postlevel
+	\postlevel
+	\begin{call}{B}{for i in 0..32 \{ request DHCP lease on net\$i \&\& break; \}}{F}{}
+	\end{call}
+
+	\postlevel
+	\begin{call}{B}{Fetch bootstrap script via http w/ MAC address param}{E}{Discovery bootstrap iPXE script}
+		\begin{call}{E}{Look up MAC address}{D}{Bootstrap scripts}
+		\end{call}
+	\end{call}
+
+	\postlevel
+	\begin{call}{B}{Execute bootstrap iPXE script}{B}{Reboot into Discovery Image}
+		\begin{call}{B}{Fetch Discovery image and Discovery extension zips via http}{E}{}
+		\end{call}
+	\end{call}
+
+	\draw[line width=.1mm,double distance=3pt] ([xshift=70pt] 0,-10 -| current page.west) -- node[fill=white] {Boot into Discovery Image} ([xshift=-20pt] 0,-10 -| current page.east);
+	\postlevel
+	\postlevel
+
+	\begin{call}{B}{Request DHCP lease on successful NIC from iPXE}{F}{}
+	\end{call}
+
+	\begin{call}{B}{Run preregister scripts}{B}{}
+		\postlevel
+		\begin{call}{B}{Run `facter`}{B}{Cache results}
+			\postlevel
+			\begin{call}{B}{Call `dsu -i`}{B}{}
+			\end{call}
+			\begin{call}{B}{Call `omreport biossetup`}{B}{}
+			\end{call}
+			\begin{call}{B}{Call `omreport storage`}{B}{}
+			\end{call}
+			\postlevel
+		\end{call}
+
+		\postlevel
+		\begin{call}{B}{Pull SSH keys from discovery-image-keys Github repo}{B}{Store in $\scriptstyle\mathtt{\sim}$root/.ssh/authorized\_keys}
+		\end{call}
+
+		\begin{call}{B}{Enable SSH for PubKeyAuthentication only}{B}{}
+		\end{call}
+	\end{call}
+
+	\begin{call}{B}{\shortstack{Register as Discovered Host and publish facts}}{E}{}
+		\begin{call}{E}{Display host on web/cli}{D}{}
+
+		\end{call}
+
+	\end{call}
+
+
+
+
+\end{sequencediagram}
+
+\end{document}
