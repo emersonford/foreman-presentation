@@ -1,0 +1,54 @@
+\documentclass{standalone}
+
+\usepackage[utf8]{inputenc}
+\usepackage{pgf-umlsd}
+
+% new an instance thread
+% Example:
+% \newinst[color]{var}{name}{class}
+\newcommand{\newspacedthread}[3][gray!30]{
+  \newinst[4]{#2}{#3}
+  \stepcounter{threadnum}
+  \node[below of=inst\theinstnum,node distance=0.8cm] (thread\thethreadnum) {};
+  \tikzstyle{threadcolor\thethreadnum}=[fill=#1]
+  \tikzstyle{instcolor#2}=[fill=#1]
+}
+
+\begin{document}
+
+\begin{sequencediagram}
+	% \tikzstyle{threadstyle}+=[draw=none,fill=none]
+	\newthread{A}{Foreman Admin}{}
+	\newinst[4]{D}{Foreman Master}{}
+	\newinst[4]{E}{Smart Proxy}{}
+	\newspacedthread{B}{Remote Host}{}
+
+	\draw[line width=.1mm,double distance=3pt] ([xshift=70pt] 0,-1.5 -| current page.west) -- node[fill=white] {Remote Host in Discovery Image} ([xshift=100pt] 0,-1.5 -| current page.east);
+
+	\postlevel
+	\postlevel
+	\begin{call}{A}{\shortstack{Call 'Provision Host' with \\
+				Specified Host Group}}{D}{}
+		\begin{call}{D}{\shortstack{Write host configuration and bootstrap scripts \\
+					to DB w/ Remote Host MAC Address}}{D}{}
+		\end{call}
+
+		\begin{call}{D}{Request host reboot}{E}{}
+			\begin{messcall}{E}{Send reboot command}{B}{}
+			\end{messcall}
+		\end{call}
+	\end{call}
+
+	\draw[line width=.1mm,double distance=3pt] ([xshift=70pt] 0,-8 -| current page.west) -- node[fill=white] {Reboot Remote Host into iPXE Image} ([xshift=100pt] 0,-8 -| current page.east);
+
+	\postlevel
+	\postlevel
+
+
+
+
+
+
+\end{sequencediagram}
+
+\end{document}

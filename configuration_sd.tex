@@ -1,0 +1,51 @@
+\documentclass{standalone}
+
+\usepackage[utf8]{inputenc}
+\usepackage{pgf-umlsd}
+
+% new an instance thread
+% Example:
+% \newinst[color]{var}{name}{class}
+\newcommand{\newspacedthread}[3][gray!30]{
+  \newinst[6]{#2}{#3}
+  \stepcounter{threadnum}
+  \node[below of=inst\theinstnum,node distance=0.8cm] (thread\thethreadnum) {};
+  \tikzstyle{threadcolor\thethreadnum}=[fill=#1]
+  \tikzstyle{instcolor#2}=[fill=#1]
+}
+
+\begin{document}
+
+\begin{sequencediagram}
+	% \tikzstyle{threadstyle}+=[draw=none,fill=none]
+	\newthread{B}{Remote Host}{}
+	\newinst[6]{E}{Smart Proxy}{}
+	\newinst[6]{D}{Foreman Master}{}
+
+	\draw[line width=.1mm,double distance=3pt] ([xshift=70pt] 0,-1.5 -| current page.west) -- node[fill=white] {Remote Host in Installed OS} ([xshift=20pt] 0,-1.5 -| current page.east);
+
+	\postlevel
+	\postlevel
+
+	\begin{call}{B}{Register Host Build Done}{E}{}
+		\begin{call}{E}{Register Host Build Done in DB/web/cli}{D}{}
+		\end{call}
+	\end{call}
+
+	\postlevel
+
+	\begin{call}{B}{Run `puppet agent`}{B}{}
+		\postlevel
+		\begin{call}{B}{Fetch Puppet manifests}{E}{Manifest file}
+			\begin{call}{E}{Fetch manifests from DB}{D}{Manifest file}
+			\end{call}
+		\end{call}
+
+		\begin{call}{B}{Apply manifest}{B}{}
+		\end{call}
+		\postlevel
+	\end{call}
+
+\end{sequencediagram}
+
+\end{document}
