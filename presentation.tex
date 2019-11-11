@@ -16,7 +16,59 @@
 \frame{\titlepage}
 
 \begin{frame}
+	\frametitle{SLATE Provisioning Goals}
+	\begin{itemize}
+		\item Plug into existing infrastructure
+		\item Solution should be adaptable to a variety of scenarios
+		      \begin{itemize}
+			      \item No network configuration access
+			      \item Have network configuration access
+		      \end{itemize}
+		\item Majority of work is pushed to us, not to staff at remote site
+		\item Provide plenty of automation opportunities
+		\item Provide centralized reporting of hosts
+		\item Scalable, both with the number of hosts and distances between hosts
+		\item Could potentially plug into other cloud providers.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Overview of Provisioning}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\includegraphics[width=\textwidth,height=\textheight-15mm,keepaspectratio]{provisioning_diagram}
+		\end{column}
+
+		\begin{column}{0.5\textwidth}
+			Provisioning new machines is complicated... at the CHPC we have the following options:
+			\begin{itemize}
+				\item Can do all of this manually.
+				\item Use Spacewalk, configure the rest manually.
+				\item Configure hardware control \& network configuration manually, use one image/directory (through NFS) for all nodes (our compute nodes)
+			\end{itemize}
+			These aren't really scalable...
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
 	\frametitle{What is Foreman?}
+	An open-source project that acts as the "glue" between all of these pieces required for provisioning.
+	It is extremely modular and plugs into existing projects like Puppet, xinetd, Kickstart, etc.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Foreman Architecture Overview}
+	\begin{figure}[t]
+		\includegraphics[width=\textwidth,height=\textheight-4cm,keepaspectratio]{foreman_architecture}
+
+		\tiny Credit: Foreman Manual
+		\vspace{0.1cm}
+
+		\normalsize Each piece of Foreman can be deployed on individual servers. Smart Proxies plug into existing services, such as an already running \texttt{tftpd}.
+	\end{figure}
+
+
 
 \end{frame}
 

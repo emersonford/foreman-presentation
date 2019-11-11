@@ -1,0 +1,89 @@
+\documentclass[tikz]{standalone}
+
+\usepackage{tikz}
+\usepackage{pgffor}
+\usepackage{calc}
+
+\newlength{\nextboxheight}
+\newlength{\boxwidth}
+\newlength{\boxheight}
+\newlength{\boxspacing}
+
+\setlength{\nextboxheight}{0cm}
+\setlength{\boxwidth}{4cm}
+\setlength{\boxheight}{1.5cm}
+\setlength{\boxspacing}{0.1cm}
+
+\newcommand{\incrnextboxheight}{\addtolength{\nextboxheight}{-\boxheight-\boxspacing}
+\global\nextboxheight=\nextboxheight}
+\newcommand{\resetnextboxheight}{\setlength{\nextboxheight}{0cm}
+\global\nextboxheight=\nextboxheight}
+
+
+\begin{document}
+\begin{tikzpicture}
+	\foreach \x in {
+			{\shortstack{Hardware Control \\
+						\tiny BMC, firmware, BIOS configs}},
+			{\shortstack{Network \\
+						Configuration \\
+						\tiny NIC, hostname, IP address}},
+			% {\shortstack{New Host Discovery}},
+			{\shortstack{OS Installation Image \\
+						Configuration \\
+						\tiny CentOS w/ Kickstart, \\
+						\tiny Debian w/ Preseed, etc}}
+		}
+		{
+			\draw[draw=black] (0,\nextboxheight) rectangle ++(\boxwidth,\boxheight) node[midway] {\x};
+			\incrnextboxheight
+		}
+
+	\foreach \x in {
+			{\shortstack{OS Image/Configuration \\
+						Deployment \\
+						\tiny image installation, \\
+						\tiny kickstart file serving}}
+		}
+		{
+			\draw[draw=black] (0,\nextboxheight) rectangle ++(\boxwidth,\boxheight) node[midway] {\x};
+			\incrnextboxheight
+		}
+
+	\foreach \x in {
+			{\shortstack{Package Management \\
+						\tiny installation, removal, \\
+						\tiny version management}},
+			{\shortstack{Package Configuration \\
+						\tiny services, /etc}},
+			{\shortstack{Host Reporting \\
+						and Tracking \\
+						\tiny package versions, host facts}}
+		}
+		{
+			\draw[draw=black] (0,\nextboxheight) rectangle ++(\boxwidth,\boxheight) node[midway] {\x};
+			\incrnextboxheight
+		}
+
+
+	\resetnextboxheight
+	\foreach \x in {{\texttt{ipmitool}, Dell tools},
+			{\shortstack[l]{Manual altering of DHCP \\
+						and DNS}},
+			% {\shortstack{New Host Discovery}},
+			{Spacewalk, Manual},
+			{\shortstack[l]{TFTP, PXE, iPXE, \\
+						Spacewalk/Cobbler, USB}},
+			{\shortstack[l]{Spacewalk, Puppet, \\
+						Ansible, Chef, Manual}},
+			{\shortstack[l]{Spacewalk (primitive), Puppet, \\
+						Ansible, Chef, Manual}},
+			{\shortstack[l]{Puppet (facter), Ansible, \\
+						Spacewalk (primitive), manual DB}}
+		}
+		{
+			\draw[draw=none] (\boxwidth+0.3cm,\nextboxheight) -- ++(0,\boxheight) node[right,align=left,pos=0.5] {\x};
+			\incrnextboxheight
+		}
+\end{tikzpicture}
+\end{document}
