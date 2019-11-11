@@ -1,9 +1,0 @@
-\frametitle{Foreman Configuration Workflow}
-
-	\centering
-	\includegraphics[width=\textwidth,height=\textheight-35mm,keepaspectratio]{configuration_sd}
-
-	\tiny Foreman comes with Puppet by default but can be configured with Ansible, SaltStack, etc.
-	\vspace{.5cm}
-
-	\normalsize Puppet can be used both normally (ie. with manifests) or Puppet class configurations can be done through Foreman.
