@@ -1,31 +1,7 @@
-\frametitle{Foreman iPXE Workflow}
+\frametitle{Foreman Configuration Workflow}
 
-	\begin{columns}
-		\begin{column}{0.5\textwidth}
-			\flushleft
-			\includegraphics[width=\textwidth,height=\textheight-15mm,keepaspectratio]{discovery_sd}
-		\end{column}
-
-		\begin{column}{0.5\textwidth}
-			Boot into Custom iPXE Image can happen in two ways:
-			\begin{itemize}
-				\item USB boot with custom iPXE image (single embedded file)
-				\item PXE boot into iPXE image.
-			\end{itemize}
-			\begin{lstlisting}[linewidth=1pt]
-if exists user-class and option user-class = "iPXE" {
-  filename "http://fm-test.chpc.utah.edu/unattended/iPXE?bootstrap=1";
-} elsif option architecture = 00:06 {
-  filename "ipxe.efi";
-} elsif option architecture = 00:07 {
-  filename "ipxe.efi";
-} elsif option architecture = 00:09 {
-  filename "ipxe.efi";
-} else {
-  filename "undionly.0";
-}
-          \end{lstlisting}
-
-		\end{column}
-	\end{columns}
+	\centering
+	\includegraphics[width=\textwidth,height=\textheight-15mm,keepaspectratio]{configuration_sd}
+	\tiny
+	Foreman comes with Puppet by default but can be configured with Ansible, SaltStack, etc.
 
