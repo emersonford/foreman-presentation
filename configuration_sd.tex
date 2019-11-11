@@ -34,17 +34,19 @@
 
 	\postlevel
 
-	\begin{call}{B}{Run `puppet agent`}{B}{}
-		\postlevel
-		\begin{call}{B}{Fetch Puppet manifests}{E}{Manifest file}
-			\begin{call}{E}{Fetch manifests from DB}{D}{Manifest file}
+	\begin{sdblock}{Loop}{Puppet Agent Loop}
+		\begin{call}{B}{Run `puppet agent`}{B}{}
+			\postlevel
+			\begin{call}{B}{Fetch Puppet manifests}{E}{Manifest file}
+				\begin{call}{E}{Fetch manifests from DB}{D}{Manifest file}
+				\end{call}
 			\end{call}
-		\end{call}
 
-		\begin{call}{B}{Apply manifest}{B}{}
+			\begin{call}{B}{Apply manifest}{B}{}
+			\end{call}
+			\postlevel
 		\end{call}
-		\postlevel
-	\end{call}
+	\end{sdblock}
 
 \end{sequencediagram}
 
