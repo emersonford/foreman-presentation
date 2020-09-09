@@ -1,12 +1,11 @@
-IMAGES = configuration_sd.tex discovery_sd.tex installation_sd.tex provisioning_diagram.tex provisioning_foreman_diagram.tex
+IMAGES = configuration_sd.pdf discovery_sd.pdf installation_sd.pdf provisioning_diagram.pdf provisioning_foreman_diagram.pdf
 
 all: presentation.pdf
 
-presentation.pdf: presentation.tex images
-	pdflatex presentation.tex
+presentation.pdf: $(IMAGES)
 
-images: $(IMAGES)
-	echo $^ | xargs -n1 pdflatex
+%.pdf: %.tex
+	pdflatex $<
 
 clean:
 	rm *.pdf
